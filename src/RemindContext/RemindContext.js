@@ -5,16 +5,15 @@ const url = "http://localhost:7000/reminders";
 const remindContext = createContext();
 
 const INITIAL_STATE = {
-  remind: false,
-  setRemind: () => {
-    console.log("setRemind");
-  },
+  reminders: [],
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case "setRemind":
-      return { ...state, remind: action.remind };
+    case "SET_REMIND":
+      return { ...state };
+    case "GET_REMIND":
+      return { ...state, reminders: action.payload };
     default:
       return state;
   }
@@ -29,26 +28,32 @@ const RemindProvider = ({ children }) => {
     },
   };
 
-  //   add reminder
+  // Add reminder
   const setRemind = async (formData) => {
     try {
-      const res = await axios.post(url, formData, config);
-      if (res.ok) {
-        // dispatch({ type: "setRemind", remind: res.data.remind });
-        console.log(res)
-      }
+      await axios.post(url, formData, config);
+      getRemind();
     } catch (error) {
-      console.log(error.message);
+      console.error(error);
     }
   };
 
-//   const getRemind = async axios.get(url, fo)
+  // Get the reminder list
+  const getRemind = async () => {
+    try {
+      const res = await axios.get(url, config);
+      dispatch({ type: "GET_REMIND", payload: res.data.reminders });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
-    <remindContext.Provider value={{ ...state, setRemind }}>
+    <remindContext.Provider value={{ ...state, setRemind, getRemind }}>
       {children}
     </remindContext.Provider>
   );
 };
+
 export default RemindProvider;
 export { remindContext };

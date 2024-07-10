@@ -1,44 +1,32 @@
-import React, { useState, useEffect, useContext } from 'react';
-import ReminderForm from './Components/ReminderForm';
+import React, { useContext, useEffect } from 'react';
 import { remindContext } from './RemindContext/RemindContext';
+import ReminderForm from './Components/ReminderForm';
 
-const App = () => {
-  const [reminders, setReminders] = useState([]);
-  // const audio = new Audio('/path-to-your-audio-file.mp3'); // Add the path to your audio file
+function App() {
+  const { reminders, getRemind, setRemind } = useContext(remindContext);
 
-  const {state, setRemind} = useContext(remindContext);
-
-  console.log(state , setRemind);
-  // useEffect(() => {
-  //   const checkReminders = () => {
-  //     const now = new Date().toISOString();
-  //     reminders.forEach((reminder, index) => {
-  //       if (reminder.time <= now) {
-  //         new Notification(reminder.message);
-  //         // audio.play();
-  //         setReminders(reminders.filter((_, i) => i !== index));
-  //       }
-  //     });
-  //   };
-
-  //   const interval = setInterval(checkReminders, 1000);
-
-  //   return () => clearInterval(interval);
-  // }, [reminders]);
+  // Fetch reminders when the component mounts
+  useEffect(() => {
+    getRemind();
+  }, []);
 
   return (
-    <div style={{display: 'flex', alignItems:'center', flexDirection: 'column'}}>
-      <h1>Reminder App</h1>
-      <ReminderForm addReminder={setRemind} />
-      <ul>
-        {reminders.map((reminder, index) => (
-          <li key={index}>
-            {reminder.time} - {reminder.message}
-          </li>
-        ))}
-      </ul>
+    <div className='flex items-center justify-center flex-col'>
+      <h1>Remind App</h1>
+      <ReminderForm />
+      {reminders?.length === 0 ? 
+        <div style={{marginTop: '12px'}}>No List Items Found</div>
+        :
+        <ul>
+          {reminders?.map((item, index) => (
+            <li key={index}>
+              {item.time} - {item.message}
+            </li>
+          ))}
+        </ul>
+      }
     </div>
   );
-};
+}
 
 export default App;
