@@ -1,9 +1,9 @@
 import React, {  useContext, useState } from "react";
-import { remindContext } from "../RemindContext/RemindContext";
+import { RemindContext } from "../RemindContext/RemindContext";
 
 const ReminderForm = ()=> {
 
-  const {setRemind} = useContext(remindContext)
+  const {setRemind} = useContext(RemindContext)
 
   const [formdata, setFormdata] = useState({
     time: "",
