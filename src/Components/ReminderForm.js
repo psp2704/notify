@@ -1,9 +1,12 @@
 import React, {  useContext, useState } from "react";
 import { RemindContext } from "../RemindContext/RemindContext";
+import { useNavigate } from "react-router-dom";
+
 
 const ReminderForm = ()=> {
 
-  const {setRemind} = useContext(RemindContext)
+  const {setRemind} = useContext(RemindContext);
+  const naviagte = useNavigate()
 
   const [formdata, setFormdata] = useState({
     time: "",
@@ -21,7 +24,7 @@ const ReminderForm = ()=> {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    setRemind(formdata)
+    setRemind(formdata, naviagte)
     // addReminder(formdata);
     setFormdata({ time: "", message: "" });
   };

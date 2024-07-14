@@ -1,5 +1,6 @@
 import axios from "axios";
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, useState } from "react";
+import { scheduleNotification } from "../Utils/ShowNotification";
 
 const url = "http://localhost:7000/reminders";
 const RemindContext = createContext();
@@ -30,28 +31,40 @@ const RemindProvider = ({ children }) => {
   };
 
   // Add reminder
-  const setRemind = async (formData) => {
+  const setRemind = async (formData, naviagte) => {
     try {
       const res = await axios.post(url, formData, config);
       dispatch({ type: "SET_REMIND", payload: res?.data?.reminders });
-      await getRemind();
+      naviagte("/");
     } catch (error) {
       console.error(error);
     }
   };
 
   // Get the reminder list
-  const getRemind = async () => {
+  const getRemind = async (remind) => {
     try {
       const res = await axios.get(url, config);
-      dispatch({ type: "GET_REMIND", payload: res?.data?.reminders });
+      if (res?.status === 200) {
+        dispatch({ type: "GET_REMIND", payload: res?.data?.reminders });
+        if (res?.data?.reminders?.length > 0) {
+          console.log(
+            "yes you have something lol" + res?.data?.reminders?.length
+          );
+          scheduleNotification("hell yeah its working bro");
+        } else {
+          console.log("no you don't have anything lol");
+        }
+      }
     } catch (error) {
       console.error(error);
     }
   };
 
   return (
-    <RemindContext.Provider value={{ reminders: state.reminders, setRemind, getRemind }}>
+    <RemindContext.Provider
+      value={{ reminders: state.reminders, setRemind, getRemind }}
+    >
       {children}
     </RemindContext.Provider>
   );
