@@ -16,6 +16,8 @@ const reducer = (state, action) => {
       return { ...state, reminders: payload };
     case "GET_REMIND":
       return { ...state, reminders: payload };
+    case "DELETE_REMIND" :
+      return { ...state, reminders: payload };
     default:
       return state;
   }
@@ -51,12 +53,13 @@ const RemindProvider = ({ children }) => {
           console.log(
             "Length of Responce Data" + ': ' + res?.data?.reminders?.length
           );
-          let timeArray = res?.data?.reminders?.map((ele)=>{
-            return {time : new Date(ele.time)}
+          let dateArray = res?.data?.reminders?.map((ele)=>{
+            return {nextServiceDate : new Date(ele.nextServiceDate)}
           })
-          let list = timeArray.map((ele)=>{
-            return {month:ele.time.getMonth(), date:ele.time.getDate(), hour : ele.time.getHours(), minute : ele.time.getMinutes()}
-          })
+          let list = dateArray.map((ele)=>{
+            return {month:ele.nextServiceDate.getMonth(), date:ele.nextServiceDate.getDate(), hour : ele.nextServiceDate.getHours(), minute : ele.nextServiceDate.getMinutes()}
+          });
+          console.log(list)
           scheduleNotification(list);
         } else {
           console.log("no you don't have anything lol");
@@ -67,9 +70,19 @@ const RemindProvider = ({ children }) => {
     }
   };
 
+  const deleteRemind = async (id) =>{
+    try {
+      const res = await axios.delete(`${url}/${id}`, config);
+      dispatch({ type: "DELETE_REMIND", payload: res?.data?.reminders });
+      console.log('success')
+  }catch(error){
+    console.error(error);
+  }
+}
+
   return (
     <RemindContext.Provider
-      value={{ reminders: state.reminders, setRemind, getRemind }}
+      value={{ reminders: state.reminders, setRemind, getRemind, deleteRemind }}
     >
       {children}
     </RemindContext.Provider>
