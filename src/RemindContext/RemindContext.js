@@ -31,11 +31,11 @@ const RemindProvider = ({ children }) => {
   };
 
   // Add reminder
-  const setRemind = async (formData, naviagte) => {
+  const setRemind = async (formData, navigate) => {
     try {
       const res = await axios.post(url, formData, config);
       dispatch({ type: "SET_REMIND", payload: res?.data?.reminders });
-      naviagte("/");
+      navigate("/dashboard");
     } catch (error) {
       console.error(error);
     }
@@ -49,9 +49,15 @@ const RemindProvider = ({ children }) => {
         dispatch({ type: "GET_REMIND", payload: res?.data?.reminders });
         if (res?.data?.reminders?.length > 0) {
           console.log(
-            "yes you have something lol" + res?.data?.reminders?.length
+            "Length of Responce Data" + ': ' + res?.data?.reminders?.length
           );
-          scheduleNotification("hell yeah its working bro");
+          let timeArray = res?.data?.reminders?.map((ele)=>{
+            return {time : new Date(ele.time)}
+          })
+          let list = timeArray.map((ele)=>{
+            return {month:ele.time.getMonth(), date:ele.time.getDate(), hour : ele.time.getHours(), minute : ele.time.getMinutes()}
+          })
+          scheduleNotification(list);
         } else {
           console.log("no you don't have anything lol");
         }
