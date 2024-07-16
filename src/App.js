@@ -1,14 +1,15 @@
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import Home from "./Components/Navbar/Home";
 import About from "./Components/Navbar/About";
-import Navbar from "./Components/Navbar/Navbar";
+// import Navbar from "./Components/Navbar/Navbar";
 import Dashboard from "./Components/Dashboard/Dashboard";
 import Sidebar from "./Components/Dashboard/Sidebar";
 import Login from "./Components/Forms/Login";
 import Register from "./Components/Forms/Register";
 import Footer from "./Components/Footer/Footer";
 import RegisterInstallation from "./Components/Forms/RegisterInstallation";
-import EditInstallation from "./Components/Forms/EditInstallation";
+import UpdateInstallation from "./Components/Forms/UpdateInstallation";
+import ReminderDetails from "./Components/Dashboard/ReminderDetails";
 
 function Layout() {
   const location = useLocation();
@@ -25,7 +26,8 @@ function Layout() {
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/register-installation" element={<RegisterInstallation />} />
-          <Route path="/update-reminder/:remindId" element={<EditInstallation />} />
+          <Route path="/update-reminder/:remindId" element={<UpdateInstallation />} />
+          <Route path="/reminder/:remindId" element={<ReminderDetails />} />
         </Routes>
         <Footer />
       </div>

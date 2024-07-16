@@ -1,16 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
 import { RemindContext } from "../../RemindContext/RemindContext";
 import { useNavigate, useParams } from "react-router-dom";
-import {  specifiedFormatDate } from "../../Utils/ShowNotification";
+import {  formatDateWithTime, formatDateWithoutTime } from "../../Utils/ShowNotification";
 
-function EditInstallation() {
+function UpdateInstallation() {
   const navigate = useNavigate();
   const { remindId } = useParams();
-  const { reminder, getSingleRemind } = useContext(RemindContext);
+  const { reminder, getSingleRemind, updateRemind } = useContext(RemindContext);
 
   useEffect(() => {
     getSingleRemind(remindId);
-    console.log("hey")
   }, [remindId]);
 
   const [formdata, setFormdata] = useState({
@@ -26,8 +25,8 @@ function EditInstallation() {
       setFormdata({
         customerName: reminder.customerName || "",
         acBrand: reminder.acBrand || "",
-        installationDate: specifiedFormatDate(reminder.installationDate) || "",
-        nextServiceDate: specifiedFormatDate(reminder.nextServiceDate) || "",
+        installationDate: formatDateWithoutTime(reminder.installationDate) || "",
+        nextServiceDate: formatDateWithTime(reminder.nextServiceDate) || "",
       });
     }
   }, [reminder]);
@@ -46,7 +45,7 @@ function EditInstallation() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setRemind(formdata, navigate);
+    updateRemind(remindId, formdata, navigate);
     // Clear form after submission
     setFormdata({
       // Customer Information
@@ -153,4 +152,4 @@ function EditInstallation() {
   );
 }
 
-export default EditInstallation;
+export default UpdateInstallation;

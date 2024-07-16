@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, useReducer, useState } from "react";
+import { createContext, useReducer } from "react";
 import { scheduleNotification } from "../Utils/ShowNotification";
 
 const url = "http://localhost:7000/reminders";
@@ -60,7 +60,7 @@ const RemindProvider = ({ children }) => {
       dispatch({ type: "SET_REMIND", payload: res?.data });
       navigate("/dashboard");
     } catch (error) {
-      console.error(error);
+      console.log(error?.response?.data?.stack)
     }
   };
 
@@ -73,7 +73,7 @@ const RemindProvider = ({ children }) => {
         console.log(res?.data);
         if (res?.data?.reminders?.length > 0) {
           console.log(
-            "Length of Responce Data" + ": " + res?.data?.reminders?.length
+            `Length of Responce Data : ${res?.data?.reminders?.length}`
           );
           let dateArray = res?.data?.reminders?.map((ele) => {
             return { nextServiceDate: new Date(ele.nextServiceDate) };
@@ -93,7 +93,7 @@ const RemindProvider = ({ children }) => {
         }
       }
     } catch (error) {
-      console.error(error);
+      console.log(error?.response?.data?.stack)
     }
   };
 
@@ -103,7 +103,7 @@ const RemindProvider = ({ children }) => {
       dispatch({ type: "DELETE_REMIND", payload: res?.data });
       console.log("success");
     } catch (error) {
-      console.error(error);
+      console.log(error?.response?.data?.stack)
     }
   };
 
@@ -113,8 +113,18 @@ const RemindProvider = ({ children }) => {
       dispatch({ type: "GET_SINGLE_REMIND", payload: res?.data });
       console.log(res?.data)
     } catch (error) {
-      console.log(error)
-      console.error(error?.responce?.data?.message)
+      console.log(error?.response?.data?.stack)
+    }
+  }
+
+  const updateRemind = async(id, formdata, navigate) =>{
+    try {
+      const res = await axios.put(`${url}/${id}`, formdata, config);
+      dispatch({ type: "UPDATE_REMIND", payload: res?.data });
+      console.log(res?.data)
+      navigate("/dashboard")
+    } catch (error) {
+      console.log(error?.response?.data?.stack)
     }
   }
 
@@ -126,6 +136,7 @@ const RemindProvider = ({ children }) => {
         getRemind,
         deleteRemind,
         getSingleRemind,
+        updateRemind,
         upComingReminders: state.upComingReminders,
         reminder: state.reminder
       }}

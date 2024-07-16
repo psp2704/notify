@@ -35,21 +35,37 @@ const formatDate = (dateString) => {
   return `${day}/${month}/${year}`;
 };
 
-const specifiedFormatDate = (dateString) => {
+const formatDateWithTime = (dateString) => {
   const date = new Date(dateString);
-  if (date.getHours() && date.getMinutes()) {
-    const hour = date.getHours().toString().padStart(2, "0");
-    const minute = date.getMinutes().toString().padStart(2, "0");
-    const day = date.getDate().toString().padStart(2, "0");
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const year = date.getFullYear();
-    return `${year}-${month}-${day}T${hour}:${minute}`;
-  } else {
-    const day = date.getDate().toString().padStart(2, "0");
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const year = date.getFullYear();
-    return `${year}-${month}-${day}`;
-  }
+
+  const hour = date.getHours().toString().padStart(2, "0");
+  const minute = date.getMinutes().toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const year = date.getFullYear();
+  return `${year}-${month}-${day}T${hour}:${minute}`;
 };
 
-export { scheduleNotification, formatDate, specifiedFormatDate };
+const formatDateWithoutTime = (dateString) => {
+  const date = new Date(dateString);
+  const day = date.getDate().toString().padStart(2, "0");
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const year = date.getFullYear();
+  return `${year}-${month}-${day}`;
+};
+
+// const specifiedFormatDate = (dateString) =>{
+//   const date = new Date(dateString);
+//   const day = date.getDate().toString().padStart(2, "0");
+//     const month = (date.getMonth() + 1).toString().padStart(2, "0");
+//     const year = date.getFullYear();
+//     if(date.getHours().toString() !== '00' && date.getMinutes().toString() !== '00'){
+//       const hour = date.getHours().toString().padStart(2, "0");
+//     const minute = date.getMinutes().toString().padStart(2, "0");
+//     return  `${year}-${month}-${day}T${hour}:${minute}`;
+//     }else {
+//      return   `${year}-${month}-${day}`;
+//     }
+// }
+
+export { scheduleNotification, formatDate, formatDateWithTime, formatDateWithoutTime };

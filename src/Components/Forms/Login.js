@@ -9,7 +9,7 @@ function Login() {
         <div className="w-1/2 h-screen hidden lg:block">
           <img
             src="https://images.unsplash.com/photo-1617195737496-bc30194e3a19?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-            alt="Placeholder Image"
+            alt="well background"
             className="object-cover w-full h-full"
           />
         </div>

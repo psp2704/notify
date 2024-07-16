@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+
+
+        const date1 = "2024-07-15T00:00:00.000Z";
+        const date2 = "2024-07-16T09:17:00.000Z";
+
+    //   const specifiedFormatDate = (dateString) => {
+    //     const date = new Date(dateString);
+    //     if (date.getHours() != "00" && date.getMinutes() != "00") {
+    //       const hour = date.getHours().toString().padStart(2, "0");
+    //       const minute = date.getMinutes().toString().padStart(2, "0");
+    //       const day = date.getDate().toString().padStart(2, "0");
+    //       const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    //       const year = date.getFullYear();
+    //      console.log( `${year}-${month}-${day}T${hour}:${minute}`);
+    //     } else {
+    //       const day = date.getDate().toString().padStart(2, "0");
+    //       const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    //       const year = date.getFullYear();
+    //      console.log( `${year}-${month}-${day}`);
+    //     }
+    //   };
+
+    const specifiedFormatDate = (dateString) =>{
+        const date = new Date(dateString);
+        const day = date.getDate().toString().padStart(2, "0");
+          const month = (date.getMonth() + 1).toString().padStart(2, "0");
+          const year = date.getFullYear();
+          if(date.getHours().toString() !== '00' && date.getMinutes().toString() !== '00'){
+            const hour = date.getHours().toString().padStart(2, "0");
+          const minute = date.getMinutes().toString().padStart(2, "0");
+          return console.log( `${year}-${month}-${day}T${hour}:${minute}`);
+          }else {
+           return  console.log( `${year}-${month}-${day}`);
+          }
+      }
+
+      specifiedFormatDate(date1)
+      specifiedFormatDate(date2)
+    </script>
+  </body>
+</html>

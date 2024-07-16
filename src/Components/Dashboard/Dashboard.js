@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { RemindContext } from "../../RemindContext/RemindContext";
 import { formatDate } from "../../Utils/ShowNotification";
@@ -8,7 +8,6 @@ const Dashboard = () => {
   // Sample data for demonstration
 
   const navigate = useNavigate();
-  const {remindId} = useParams();
 
   const { getRemind, deleteRemind, reminders, upComingReminders } =
     useContext(RemindContext);
@@ -17,8 +16,11 @@ const Dashboard = () => {
     getRemind();
   }, []);
 
+  const handleView = (id) => {
+    navigate(`/reminder/${id}`)
+  };
+
   const handleEdit = (id) => {
-    alert(`Edit item with id: ${id}`);
     navigate(`/update-reminder/${id}`)
   };
 
@@ -106,11 +108,13 @@ const Dashboard = () => {
                       {formatDate(installation.nextServiceDate)}
                     </td>
                     <td className="py-2 px-4 border text-gray-600 text-center min-w-260">
-                      <Link to="/installation-details">
-                        <button className="bg-green-500 text-white py-1 px-4 rounded mr-2">
+                      {/* <Link to="/installation-details"> */}
+                        <button 
+                        onClick={() => handleView(installation._id)}
+                        className="bg-green-500 text-white py-1 px-4 rounded mr-2">
                           View
                         </button>
-                      </Link>
+                      {/* </Link> */}
                       <button
                         onClick={() => handleEdit(installation._id)}
                         className="bg-orange text-white py-1 px-4 rounded hover:shadow-md hover:shadow-cyan-500/50 mr-2"
