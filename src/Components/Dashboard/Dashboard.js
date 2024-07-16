@@ -1,32 +1,30 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { RemindContext } from "../../RemindContext/RemindContext";
+import { formatDate } from "../../Utils/ShowNotification";
 
 const Dashboard = () => {
   // Sample data for demonstration
 
-  const { getRemind, deleteRemind, reminders } = useContext(RemindContext);
+  const navigate = useNavigate();
+  const {remindId} = useParams();
+
+  const { getRemind, deleteRemind, reminders, upComingReminders } =
+    useContext(RemindContext);
 
   useEffect(() => {
     getRemind();
   }, []);
 
-  const upcomingServices = reminders?.length !== 0 ? reminders.filter((installation) => {
-    const serviceDate = new Date(installation.nextServiceDate) 
-    const today = new Date();
-    const timeDifference = serviceDate.getTime() - today.getTime();
-    const daysDifference = timeDifference / (1000 * 3600 * 24);
-    return daysDifference <= 11;
-  }) : []
-
   const handleEdit = (id) => {
     alert(`Edit item with id: ${id}`);
+    navigate(`/update-reminder/${id}`)
   };
 
   const handleDelete = (id) => {
     alert(`Delete item with id: ${id}`);
-    deleteRemind(id)
+    deleteRemind(id);
   };
 
   return (
@@ -38,14 +36,14 @@ const Dashboard = () => {
           <h2 className="text-xl font-semibold mb-4 text-navy">
             Total Installations
           </h2>
-          <p className="text-2xl text-black">{reminders.length}</p>
+          <p className="text-2xl text-black">{reminders?.length}</p>
         </div>
 
         <div className="bg-white shadow-md border-l-8 border-navy p-6">
           <h2 className="text-xl font-semibold mb-4 text-navy">
             Upcoming Services
           </h2>
-          <p className="text-2xl text-black">{upcomingServices.length}</p>
+          <p className="text-2xl text-black">{upComingReminders?.length}</p>
         </div>
       </div>
 
@@ -57,7 +55,7 @@ const Dashboard = () => {
           <Link to="/register-installation">
             <button
               type="button"
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2 me-2 mb-2 mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+              className="text-white bg-navy hover:bg-blue-900 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-8 py-2 me-2 mb-2 mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
             >
               Add
             </button>
@@ -65,33 +63,32 @@ const Dashboard = () => {
         </div>
 
         <div className="overflow-x-auto">
-        {reminders.length === 0 ? (
-                <p className="py-4 px-4 border bg-white text-black text-center rounded-lg">
-                  {" "}
-                  No Upcoming Service{" "}
-                </p>
+          {reminders.length === 0 ? (
+            <p className="py-4 px-4 border bg-white text-black text-center rounded-lg">
+              {" "}
+              No Upcoming Service{" "}
+            </p>
           ) : (
-          <table className="min-w-full bg-white shadow-lg rounded-lg">
-            <thead className="bg-navy text-white">
-              <tr>
-                <th className="py-2 px-4 border rounded-ss-lg min-w-180">
-                  Customer Name
-                </th>
-                <th className="py-2 px-4 border min-w-180">AC Brand</th>
-                <th className="py-2 px-4 border min-w-180">
-                  Installation Date
-                </th>
-                <th className="py-2 px-4 border min-w-180">
-                  Next Service Date
-                </th>
-                <th className="py-2 px-4 border rounded-se-lg min-w-260">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                reminders.map((installation) => (
+            <table className="min-w-full bg-white shadow-lg rounded-lg">
+              <thead className="bg-navy text-white">
+                <tr>
+                  <th className="py-2 px-4 border rounded-ss-lg min-w-180">
+                    Customer Name
+                  </th>
+                  <th className="py-2 px-4 border min-w-180">AC Brand</th>
+                  <th className="py-2 px-4 border min-w-180">
+                    Installation Date
+                  </th>
+                  <th className="py-2 px-4 border min-w-180">
+                    Next Service Date
+                  </th>
+                  <th className="py-2 px-4 border rounded-se-lg min-w-260">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {reminders.map((installation) => (
                   <tr
                     key={installation._id}
                     className="border-b odd:bg-white  even:bg-gray-100 "
@@ -103,10 +100,10 @@ const Dashboard = () => {
                       {installation.acBrand}
                     </td>
                     <td className="py-2 px-4 border text-gray-600 text-center">
-                      {installation.installationDate}
+                      {formatDate(installation.installationDate)}
                     </td>
                     <td className="py-2 px-4 border text-gray-600 text-center">
-                      {installation.nextServiceDate}
+                      {formatDate(installation.nextServiceDate)}
                     </td>
                     <td className="py-2 px-4 border text-gray-600 text-center min-w-260">
                       <Link to="/installation-details">
@@ -128,10 +125,10 @@ const Dashboard = () => {
                       </button>
                     </td>
                   </tr>
-                ))
-              }
-            </tbody>
-          </table>)}
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
 
@@ -140,14 +137,14 @@ const Dashboard = () => {
           Upcoming Services
         </h2>
         <div className="overflow-x-auto">
-          {upcomingServices.length < 1 ? (
+          {upComingReminders?.length < 1 ? (
             <p className="py-4 px-4 border bg-white text-black text-center rounded-lg">
               No Upcoming Service
             </p>
           ) : (
             <table className="min-w-full bg-white shadow-md rounded-lg">
               <thead className="bg-navy text-white">
-                <tr >
+                <tr>
                   <th className="py-2 px-4 border min-w-180 rounded-ss-lg">
                     Customer Name
                   </th>
@@ -164,8 +161,8 @@ const Dashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {upcomingServices.map((service, index) => (
-                  <tr  key={index} className="border-b">
+                {upComingReminders.map((service, index) => (
+                  <tr key={index} className="border-b">
                     <td className="py-2 px-4 border text-gray-600 text-center ">
                       {service.customerName}
                     </td>
@@ -173,10 +170,10 @@ const Dashboard = () => {
                       {service.acBrand}
                     </td>
                     <td className="py-2 px-4 border text-gray-600 text-center ">
-                      {service.installationDate}
+                      {formatDate(service.installationDate)}
                     </td>
                     <td className="py-2 px-4 border text-gray-600 text-center ">
-                      {service.nextServiceDate}
+                      {formatDate(service.nextServiceDate)}
                     </td>
                     <td className="py-2 px-4 border text-gray-600 text-center min-w-260">
                       <Link to="/installation-details">

@@ -20,7 +20,7 @@ function Login() {
             {/* <!-- Username Input --> */}
             <div className="mb-4">
               <label
-                for="username"
+                htmlFor="username"
                 className="block text-sm font-medium text-gray-700"
               >
                 Username
@@ -30,13 +30,13 @@ function Login() {
                 id="username"
                 name="username"
                 className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
-                autocomplete="off"
+                autoComplete="off"
               />
             </div>
             {/* <!-- Password Input --> */}
             <div className="mb-4">
               <label
-                for="password"
+                htmlFor="password"
                 className="block text-sm font-medium text-gray-700"
               >
                 Password
@@ -46,7 +46,7 @@ function Login() {
                 id="password"
                 name="password"
                 className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
-                autocomplete="off"
+                autoComplete="off"
               />
             </div>
             {/* <!-- Remember Me Checkbox --> */}
@@ -56,8 +56,9 @@ function Login() {
                 id="remember"
                 name="remember"
                 className="text-blue-500"
+                autoComplete="off"
               />
-              <label for="remember" className="text-gray-600 ml-2">
+              <label htmlFor="remember" className="text-gray-600 ml-2">
                 Remember Me
               </label>
             </div>

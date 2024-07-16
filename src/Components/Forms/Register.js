@@ -87,6 +87,7 @@ function Register() {
                     type="text"
                     id="FirstName"
                     name="first_name"
+                    autoComplete="on"
                     className="mt-1 w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
                   />
                 </div>
@@ -103,6 +104,7 @@ function Register() {
                     type="text"
                     id="LastName"
                     name="last_name"
+                     autoComplete="on"
                     className="mt-1 w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
                   />
                 </div>
@@ -120,6 +122,7 @@ function Register() {
                     type="email"
                     id="Email"
                     name="email"
+                     autoComplete="on"
                     className="mt-1 w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
                   />
                 </div>
@@ -137,6 +140,7 @@ function Register() {
                     type="password"
                     id="Password"
                     name="password"
+                     autoComplete="on"
                     className="mt-1 w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
                   />
                 </div>
@@ -153,6 +157,7 @@ function Register() {
                     type="password"
                     id="PasswordConfirmation"
                     name="password_confirmation"
+                     autoComplete="on"
                     className="mt-1 w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
                   />
                 </div>

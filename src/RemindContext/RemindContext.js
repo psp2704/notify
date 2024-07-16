@@ -7,17 +7,38 @@ const RemindContext = createContext();
 
 const INITIAL_STATE = {
   reminders: [],
+  reminder:[],
+  upComingReminders: [],
+  loading: false,
+  error: null,
 };
 
 const reducer = (state, action) => {
   const { type, payload } = action;
   switch (type) {
     case "SET_REMIND":
-      return { ...state, reminders: payload };
-    case "GET_REMIND":
-      return { ...state, reminders: payload };
-    case "DELETE_REMIND" :
-      return { ...state, reminders: payload };
+      return {
+        ...state,
+        reminders: payload?.reminders,
+        upComingReminders: payload?.upcomingServices,
+      };
+    case "GET_ALL_REMIND":
+      return {
+        ...state,
+        reminders: payload?.reminders,
+        upComingReminders: payload?.upcomingServices,
+      };
+    case "DELETE_REMIND":
+      return {
+        ...state,
+        reminders: payload?.reminders,
+        upComingReminders: payload?.upcomingServices,
+      };
+      case "GET_SINGLE_REMIND":
+      return {
+        ...state,
+        reminder : payload?.reminder
+      };
     default:
       return state;
   }
@@ -36,7 +57,7 @@ const RemindProvider = ({ children }) => {
   const setRemind = async (formData, navigate) => {
     try {
       const res = await axios.post(url, formData, config);
-      dispatch({ type: "SET_REMIND", payload: res?.data?.reminders });
+      dispatch({ type: "SET_REMIND", payload: res?.data });
       navigate("/dashboard");
     } catch (error) {
       console.error(error);
@@ -44,23 +65,29 @@ const RemindProvider = ({ children }) => {
   };
 
   // Get the reminder list
-  const getRemind = async (remind) => {
+  const getRemind = async () => {
     try {
       const res = await axios.get(url, config);
       if (res?.status === 200) {
-        dispatch({ type: "GET_REMIND", payload: res?.data?.reminders });
+        dispatch({ type: "GET_ALL_REMIND", payload: res?.data });
+        console.log(res?.data);
         if (res?.data?.reminders?.length > 0) {
           console.log(
-            "Length of Responce Data" + ': ' + res?.data?.reminders?.length
+            "Length of Responce Data" + ": " + res?.data?.reminders?.length
           );
-          let dateArray = res?.data?.reminders?.map((ele)=>{
-            return {nextServiceDate : new Date(ele.nextServiceDate)}
-          })
-          let list = dateArray.map((ele)=>{
-            return {month:ele.nextServiceDate.getMonth(), date:ele.nextServiceDate.getDate(), hour : ele.nextServiceDate.getHours(), minute : ele.nextServiceDate.getMinutes()}
+          let dateArray = res?.data?.reminders?.map((ele) => {
+            return { nextServiceDate: new Date(ele.nextServiceDate) };
           });
-          console.log(list)
-          scheduleNotification(list);
+          let list = dateArray.map((ele) => {
+            return {
+              month: ele.nextServiceDate.getMonth(),
+              date: ele.nextServiceDate.getDate(),
+              hour: ele.nextServiceDate.getHours(),
+              minute: ele.nextServiceDate.getMinutes(),
+            };
+          });
+          console.log(list);
+          // scheduleNotification(list);
         } else {
           console.log("no you don't have anything lol");
         }
@@ -70,19 +97,38 @@ const RemindProvider = ({ children }) => {
     }
   };
 
-  const deleteRemind = async (id) =>{
+  const deleteRemind = async (id) => {
     try {
       const res = await axios.delete(`${url}/${id}`, config);
-      dispatch({ type: "DELETE_REMIND", payload: res?.data?.reminders });
-      console.log('success')
-  }catch(error){
-    console.error(error);
+      dispatch({ type: "DELETE_REMIND", payload: res?.data });
+      console.log("success");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const getSingleRemind = async (id) =>{
+    try {
+      const res = await axios.get(`${url}/${id}`, config);
+      dispatch({ type: "GET_SINGLE_REMIND", payload: res?.data });
+      console.log(res?.data)
+    } catch (error) {
+      console.log(error)
+      console.error(error?.responce?.data?.message)
+    }
   }
-}
 
   return (
     <RemindContext.Provider
-      value={{ reminders: state.reminders, setRemind, getRemind, deleteRemind }}
+      value={{
+        reminders: state.reminders,
+        setRemind,
+        getRemind,
+        deleteRemind,
+        getSingleRemind,
+        upComingReminders: state.upComingReminders,
+        reminder: state.reminder
+      }}
     >
       {children}
     </RemindContext.Provider>

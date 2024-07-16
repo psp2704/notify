@@ -34,6 +34,20 @@ const Sidebar = () => {
           >
             Dashboard
           </Link>
+          <Link 
+            to="/login" 
+            className="px-4 py-2 hover:bg-gray-700"
+            onClick={handleNavigation}
+          >
+            Login
+          </Link>
+          <Link 
+            to="/register" 
+            className="px-4 py-2 hover:bg-gray-700"
+            onClick={handleNavigation}
+          >
+            Register
+          </Link>
           {/* <Link 
             to="/upcoming" 
             className="px-4 py-2 hover:bg-gray-700"
@@ -65,7 +79,7 @@ const Sidebar = () => {
 
   function handleLogout() {
     // Implement your logout functionality here
-    console.log('Logout clicked');
+    alert('Logout clicked');
   }
 };
 
