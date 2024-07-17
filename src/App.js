@@ -20,7 +20,7 @@ function Layout() {
       {!noSidebarPaths.includes(location.pathname) && <Sidebar />}
       <div className={`flex-grow ${!noSidebarPaths.includes(location.pathname) ? 'md:ml-64' : ''}`}>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Dashboard />} />
           <Route path="/about" element={<About />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />

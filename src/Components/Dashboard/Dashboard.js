@@ -111,19 +111,19 @@ const Dashboard = () => {
                       {/* <Link to="/installation-details"> */}
                         <button 
                         onClick={() => handleView(installation._id)}
-                        className="bg-green-500 text-white py-1 px-4 rounded mr-2">
+                        className="bg-green-500 border border-green-500 transition hover:bg-transparent hover:text-green-500  focus:outline-none focus:ring active:text-green-400 text-white py-1 px-4 rounded mr-2">
                           View
                         </button>
                       {/* </Link> */}
                       <button
                         onClick={() => handleEdit(installation._id)}
-                        className="bg-orange text-white py-1 px-4 rounded hover:shadow-md hover:shadow-cyan-500/50 mr-2"
+                        className="bg-orange border border-orange transition hover:bg-transparent hover:text-orange focus:ring active:text-black   text-white py-1 px-4 rounded mr-2"
                       >
                         Edit
                       </button>
                       <button
                         onClick={() => handleDelete(installation._id)}
-                        className="bg-red-500 text-white py-1 px-4 rounded"
+                        className="bg-red-500 border border-red-500 transition hover:bg-transparent hover:text-red-500  focus:outline-none focus:ring active:text-red-400 text-white py-1 px-4 rounded "
                       >
                         Delete
                       </button>
@@ -181,19 +181,20 @@ const Dashboard = () => {
                     </td>
                     <td className="py-2 px-4 border text-gray-600 text-center min-w-260">
                       <Link to="/installation-details">
-                        <button className="bg-green-500 text-white py-1 px-4 rounded mr-2">
+                        <button 
+                        className="bg-green-500 border border-green-500 transition hover:bg-transparent hover:text-green-500  focus:outline-none focus:ring active:text-green-400 text-white py-1 px-4 rounded mr-2">
                           View
                         </button>
                       </Link>
                       <button
                         onClick={() => handleEdit(service._id)}
-                        className="bg-orange text-white py-1 px-4 rounded mr-2"
+                        className="bg-orange border border-orange transition hover:bg-transparent hover:text-orange focus:ring active:text-black   text-white py-1 px-4 rounded mr-2"
                       >
                         Edit
                       </button>
                       <button
                         onClick={() => handleDelete(service._id)}
-                        className="bg-red-500 text-white py-1 px-4 rounded"
+                        className="bg-red-500 border border-red-500 transition hover:bg-transparent hover:text-red-500  focus:outline-none focus:ring active:text-red-400 text-white py-1 px-4 rounded "
                       >
                         Delete
                       </button>
